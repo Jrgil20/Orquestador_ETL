@@ -7,8 +7,8 @@ import React from "react";
  */
 export default function MetricsPanel({ metrics }) {
   return (
-    <div className="bg-white rounded shadow p-4 flex flex-col gap-2 border border-gray-200">
-      <h3 className="font-semibold text-base mb-1">Métricas del Pipeline</h3>
+    <div className="bg-white rounded-xl shadow-lg p-6 flex flex-col gap-2 border border-gray-200">
+      <h3 className="font-semibold text-xl mb-3 text-gray-800">Métricas del Pipeline</h3>
       <div className="flex flex-wrap gap-4 text-sm">
         <div><span className="font-bold">Tiempo total:</span> {metrics.totalTime || "-"}</div>
         <div><span className="font-bold">Registros procesados:</span> {metrics.recordsProcessed ?? "-"}</div>

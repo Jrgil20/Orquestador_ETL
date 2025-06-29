@@ -153,58 +153,69 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 p-4">
-      <header className="mb-6">
-        <h1 className="text-2xl font-bold text-blue-900">ETL Orchestration Service - Análisis Selección Venezuela</h1>
-        <h2 className="text-lg text-blue-700 font-medium">Pipeline de servicios modulares para análisis de sentimientos FIFA Marzo</h2>
+    <div className="min-h-screen bg-gray-50 p-8">
+      <header className="mb-10 text-center">
+        <h1 className="text-4xl font-extrabold text-blue-900 mb-3">ETL Orchestration Service - Análisis Selección Venezuela</h1>
+        <h2 className="text-xl text-blue-700 font-semibold max-w-3xl mx-auto">Pipeline de servicios modulares para análisis de sentimientos FIFA Marzo</h2>
       </header>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-        {services.map((svc) => (
-          <ServicePanel
-            key={svc.key}
-            name={svc.name}
-            description={svc.description}
-            command={svc.command}
-            status={svc.status}
-            onExecute={() => handleExecute(svc.key)}
-            disabled={svc.status === "running"}
+      
+      <section className="mb-10">
+        <h3 className="text-2xl font-bold text-gray-800 mb-6 text-center">Servicios del Pipeline</h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {services.map((svc) => (
+            <ServicePanel
+              key={svc.key}
+              name={svc.name}
+              description={svc.description}
+              command={svc.command}
+              status={svc.status}
+              onExecute={() => handleExecute(svc.key)}
+              disabled={svc.status === "running"}
+            />
+          ))}
+        </div>
+      </section>
+
+      <section className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-10">
+        <div className="flex flex-col gap-6">
+          <div className="bg-white rounded-xl shadow-lg p-6 border border-gray-200">
+            <h3 className="font-semibold text-xl mb-4 text-gray-800">Control del Pipeline</h3>
+            <button
+              className="py-3 px-6 rounded-lg bg-green-600 text-white font-bold text-lg hover:bg-green-700 disabled:bg-gray-400 transition-colors duration-300 w-full"
+              onClick={handlePipeline}
+              disabled={services.some((s) => s.status === "running")}
+            >
+              Ejecutar Pipeline Completo
+            </button>
+          </div>
+          <MetricsPanel metrics={metrics} />
+        </div>
+        
+        <div className="flex flex-col gap-6">
+          <div>
+            <h3 className="font-semibold text-xl mb-2 text-gray-800">Logs Consolidados</h3>
+            <LogsConsole logs={logs} />
+          </div>
+          <div>
+            <h3 className="font-semibold text-xl mb-2 text-gray-800">Archivos Intermedios</h3>
+            <ul className="bg-white rounded-xl shadow-lg p-4 border border-gray-200 text-sm">
+              {files.map((f) => (
+                <li key={f.name} className="flex justify-between border-b last:border-b-0 py-2">
+                  <span>{f.name}</span>
+                  <span className="text-gray-500">{(f.size / 1024).toFixed(1)} KB</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <SupabaseConfig
+            config={supabase}
+            onChange={handleSupabaseChange}
+            onValidate={handleSupabaseValidate}
+            validationStatus={supabaseStatus}
+            validationMessage={supabaseMsg}
           />
-        ))}
-      </div>
-      <div className="flex flex-col md:flex-row gap-4 mb-6">
-        <button
-          className="py-2 px-4 rounded bg-green-600 text-white font-semibold hover:bg-green-700 disabled:bg-gray-400 transition-colors duration-300 w-full md:w-auto"
-          onClick={handlePipeline}
-          disabled={services.some((s) => s.status === "running")}
-        >
-          Ejecutar Pipeline Completo
-        </button>
-        <MetricsPanel metrics={metrics} />
-      </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-        <div>
-          <h3 className="font-semibold mb-2">Logs Consolidados</h3>
-          <LogsConsole logs={logs} />
         </div>
-        <div>
-          <h3 className="font-semibold mb-2">Archivos Intermedios</h3>
-          <ul className="bg-white rounded shadow p-4 border border-gray-200 text-sm">
-            {files.map((f) => (
-              <li key={f.name} className="flex justify-between border-b last:border-b-0 py-1">
-                <span>{f.name}</span>
-                <span className="text-gray-500">{(f.size / 1024).toFixed(1)} KB</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </div>
-      <SupabaseConfig
-        config={supabase}
-        onChange={handleSupabaseChange}
-        onValidate={handleSupabaseValidate}
-        validationStatus={supabaseStatus}
-        validationMessage={supabaseMsg}
-      />
+      </section>
     </div>
   );
 }
