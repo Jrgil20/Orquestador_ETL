@@ -19,10 +19,10 @@ export default function SupabaseConfig({ config, onChange, onValidate, validatio
   };
 
   return (
-    <form className="bg-white rounded shadow p-4 flex flex-col gap-2 border border-gray-200">
-      <h3 className="font-semibold text-base mb-1">Configuración Supabase</h3>
+    <form className="bg-white rounded-xl shadow-lg p-6 flex flex-col gap-3 border border-gray-200">
+      <h3 className="font-semibold text-xl mb-3 text-gray-800">Configuración Supabase</h3>
       <input
-        className="border rounded px-2 py-1 text-sm"
+        className="border rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
         name="url"
         placeholder="URL del proyecto"
         value={localConfig.url}
@@ -30,7 +30,7 @@ export default function SupabaseConfig({ config, onChange, onValidate, validatio
         autoComplete="off"
       />
       <input
-        className="border rounded px-2 py-1 text-sm"
+        className="border rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
         name="apiKey"
         placeholder="API Key"
         value={localConfig.apiKey}
@@ -38,7 +38,7 @@ export default function SupabaseConfig({ config, onChange, onValidate, validatio
         autoComplete="off"
       />
       <input
-        className="border rounded px-2 py-1 text-sm"
+        className="border rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
         name="table"
         placeholder="Tabla destino"
         value={localConfig.table}
@@ -47,7 +47,7 @@ export default function SupabaseConfig({ config, onChange, onValidate, validatio
       />
       <button
         type="button"
-        className="mt-2 py-1 px-3 rounded bg-blue-600 text-white font-semibold hover:bg-blue-700 disabled:bg-gray-400 transition-colors duration-300"
+        className="mt-2 py-2 px-4 rounded-lg bg-blue-600 text-white font-semibold hover:bg-blue-700 disabled:bg-gray-400 transition-colors duration-300"
         onClick={onValidate}
         disabled={validationStatus === 'validating'}
       >
