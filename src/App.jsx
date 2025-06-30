@@ -93,14 +93,46 @@ export default function App() {
         );
       }
     } else {
-      setTimeout(() => {
-        setServices((prev) =>
-          prev.map((s) =>
-            s.key === key ? { ...s, status: "success" } : s
-          )
-        );
-        setLogs((l) => [...l, `[${new Date().toLocaleTimeString()}] Servicio ${key} finalizado con éxito.`]);
-      }, 1500);
+      const endpoint = key === 'transformation' ? 'http://localhost:4000/api/transform' : null;
+
+      if (endpoint) {
+        try {
+          const res = await fetch(endpoint, { method: "POST" });
+          const data = await res.json();
+          if (data.success) {
+            setLogs((l) => [...l, ...data.log.split("\n").map(line => `[${key}] ${line}`)]);
+            setServices((prev) =>
+              prev.map((s) =>
+                s.key === key ? { ...s, status: "success" } : s
+              )
+            );
+          } else {
+            setLogs((l) => [...l, `[${key}][error] ${data.error || "Error desconocido"}`]);
+            setServices((prev) =>
+              prev.map((s) =>
+                s.key === key ? { ...s, status: "error" } : s
+              )
+            );
+          }
+        } catch (err) {
+          setLogs((l) => [...l, `[${key}][error] ${err.message}`]);
+          setServices((prev) =>
+            prev.map((s) =>
+              s.key === key ? { ...s, status: "error" } : s
+            )
+          );
+        }
+      } else {
+        // Fallback for services without a backend endpoint
+        setTimeout(() => {
+          setServices((prev) =>
+            prev.map((s) =>
+              s.key === key ? { ...s, status: "success" } : s
+            )
+          );
+          setLogs((l) => [...l, `[${new Date().toLocaleTimeString()}] Servicio ${key} finalizado con éxito (simulado).`]);
+        }, 1500);
+      }
     }
   };
 
