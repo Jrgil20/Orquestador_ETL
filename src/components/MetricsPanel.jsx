@@ -4,11 +4,10 @@ import React from "react";
  * Panel de métricas del pipeline ETL.
  * Props:
  * - metrics: { totalTime, recordsProcessed, successRate, timestamps }
- * - className: Additional CSS classes for grid positioning
  */
-export default function MetricsPanel({ metrics, className = "" }) {
+export default function MetricsPanel({ metrics }) {
   return (
-    <div className={`bg-white rounded-xl shadow-lg p-6 flex flex-col gap-2 border border-gray-200 h-fit ${className}`}>
+    <div className="bg-white rounded-xl shadow-lg p-6 flex flex-col gap-2 border border-gray-200 h-fit">
       <h3 className="font-semibold text-xl mb-3 text-gray-800">Métricas del Pipeline</h3>
       <div className="flex flex-wrap gap-4 text-sm">
         <div><span className="font-bold">Tiempo total:</span> {metrics.totalTime || "-"}</div>

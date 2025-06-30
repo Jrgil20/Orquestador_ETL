@@ -159,29 +159,29 @@ export default function App() {
         <h2 className="text-xl text-blue-700 font-medium">Análisis Selección Venezuela - Pipeline FIFA Marzo</h2>
       </header>
       
-      {/* Main Grid Container */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 max-w-7xl mx-auto">
-        
-        {/* Services Section - Spans full width on larger screens */}
-        <div className="lg:col-span-3 xl:col-span-4">
-          <h3 className="text-2xl font-bold text-gray-800 mb-6">Servicios del Pipeline</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-            {services.map((svc) => (
-              <ServicePanel
-                key={svc.key}
-                name={svc.name}
-                description={svc.description}
-                command={svc.command}
-                status={svc.status}
-                onExecute={() => handleExecute(svc.key)}
-                disabled={svc.status === "running"}
-              />
-            ))}
-          </div>
+      {/* Services Section - Full width */}
+      <div className="mb-8">
+        <h3 className="text-2xl font-bold text-gray-800 mb-6">Servicios del Pipeline</h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {services.map((svc) => (
+            <ServicePanel
+              key={svc.key}
+              name={svc.name}
+              description={svc.description}
+              command={svc.command}
+              status={svc.status}
+              onExecute={() => handleExecute(svc.key)}
+              disabled={svc.status === "running"}
+            />
+          ))}
         </div>
+      </div>
 
+      {/* Main Content - Side by Side Layout */}
+      <div className="flex flex-wrap gap-6 justify-center">
+        
         {/* Pipeline Control */}
-        <div className="md:col-span-1 lg:col-span-1 xl:col-span-1">
+        <div className="w-full sm:w-auto sm:min-w-[280px] flex-1 max-w-sm">
           <div className="bg-white rounded-xl shadow-lg p-6 border border-gray-200 h-fit">
             <h3 className="font-semibold text-lg mb-4 text-gray-800">Control del Pipeline</h3>
             <button
@@ -195,16 +195,12 @@ export default function App() {
         </div>
 
         {/* Metrics Panel */}
-        <MetricsPanel metrics={metrics} className="md:col-span-1 lg:col-span-1 xl:col-span-1" />
-
-        {/* Logs Console - Takes more space */}
-        <div className="md:col-span-2 lg:col-span-2 xl:col-span-2">
-          <h3 className="font-semibold text-lg mb-3 text-gray-800">Logs Consolidados</h3>
-          <LogsConsole logs={logs} />
+        <div className="w-full sm:w-auto sm:min-w-[300px] flex-1 max-w-md">
+          <MetricsPanel metrics={metrics} />
         </div>
 
         {/* Intermediate Files */}
-        <div className="md:col-span-1 lg:col-span-1 xl:col-span-1">
+        <div className="w-full sm:w-auto sm:min-w-[280px] flex-1 max-w-sm">
           <h3 className="font-semibold text-lg mb-3 text-gray-800">Archivos Intermedios</h3>
           <div className="bg-white rounded-xl shadow-lg p-4 border border-gray-200">
             <ul className="text-sm space-y-2">
@@ -221,14 +217,21 @@ export default function App() {
         </div>
 
         {/* Supabase Config */}
-        <SupabaseConfig
-          config={supabase}
-          onChange={handleSupabaseChange}
-          onValidate={handleSupabaseValidate}
-          validationStatus={supabaseStatus}
-          validationMessage={supabaseMsg}
-          className="md:col-span-1 lg:col-span-1 xl:col-span-1"
-        />
+        <div className="w-full sm:w-auto sm:min-w-[320px] flex-1 max-w-md">
+          <SupabaseConfig
+            config={supabase}
+            onChange={handleSupabaseChange}
+            onValidate={handleSupabaseValidate}
+            validationStatus={supabaseStatus}
+            validationMessage={supabaseMsg}
+          />
+        </div>
+      </div>
+
+      {/* Logs Console - Full width at bottom */}
+      <div className="mt-8">
+        <h3 className="font-semibold text-lg mb-3 text-gray-800">Logs Consolidados</h3>
+        <LogsConsole logs={logs} />
       </div>
     </div>
   );
