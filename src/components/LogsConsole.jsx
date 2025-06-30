@@ -7,7 +7,7 @@ import React from "react";
  */
 export default function LogsConsole({ logs }) {
   return (
-    <div className="bg-black text-green-200 font-mono rounded p-3 h-40 overflow-y-auto text-xs shadow-inner">
+    <div className="bg-black text-green-200 font-mono rounded-xl p-4 h-48 overflow-y-auto text-xs shadow-lg border border-gray-300">
       {logs.length === 0 ? (
         <span className="text-gray-400">Sin logs aún...</span>
       ) : (

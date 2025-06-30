@@ -8,8 +8,9 @@ import React, { useState } from "react";
  * - onValidate: función para validar conexión
  * - validationStatus: 'idle' | 'validating' | 'success' | 'error'
  * - validationMessage: string
+ * - className: Additional CSS classes for grid positioning
  */
-export default function SupabaseConfig({ config, onChange, onValidate, validationStatus, validationMessage }) {
+export default function SupabaseConfig({ config, onChange, onValidate, validationStatus, validationMessage, className = "" }) {
   const [localConfig, setLocalConfig] = useState(config);
 
   const handleChange = (e) => {
@@ -19,7 +20,7 @@ export default function SupabaseConfig({ config, onChange, onValidate, validatio
   };
 
   return (
-    <form className="bg-white rounded-xl shadow-lg p-6 flex flex-col gap-3 border border-gray-200">
+    <form className={`bg-white rounded-xl shadow-lg p-6 flex flex-col gap-3 border border-gray-200 h-fit ${className}`}>
       <h3 className="font-semibold text-xl mb-3 text-gray-800">Configuración Supabase</h3>
       <input
         className="border rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
