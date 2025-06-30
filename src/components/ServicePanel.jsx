@@ -20,18 +20,18 @@ const statusColors = {
 
 export default function ServicePanel({ name, description, status, command, onExecute, disabled }) {
   return (
-    <div className={`rounded-lg shadow p-4 flex flex-col gap-2 border ${statusColors[status] || statusColors.idle}`}>
+    <div className={`rounded-xl shadow-lg p-6 flex flex-col gap-3 border ${statusColors[status] || statusColors.idle}`}>
       <div className="flex items-center justify-between">
-        <h2 className="font-bold text-lg">{name}</h2>
-        <span className="text-xs px-2 py-1 rounded font-mono border border-gray-300 bg-white/70">{status}</span>
+        <h2 className="font-bold text-xl">{name}</h2>
+        <span className="text-xs px-3 py-1 rounded-full font-mono border border-gray-300 bg-white/70 uppercase tracking-wide">{status}</span>
       </div>
-      <p className="text-sm text-gray-600 flex-1">{description}</p>
-      <div className="bg-gray-800 text-green-300 font-mono text-xs p-2 rounded border">
-        <div className="text-gray-400 text-xs mb-1">Comando:</div>
-        <code>{command}</code>
+      <p className="text-sm text-gray-600 flex-1 mb-2">{description}</p>
+      <div className="bg-gray-800 text-green-300 font-mono text-xs p-3 rounded-lg border flex items-center gap-2">
+        <span className="text-gray-400 text-xs whitespace-nowrap">Comando:</span>
+        <code className="flex-1 overflow-hidden text-ellipsis whitespace-nowrap" title={command}>{command}</code>
       </div>
       <button
-        className="mt-2 py-1 px-3 rounded bg-blue-600 text-white font-semibold hover:bg-blue-700 disabled:bg-gray-400 transition-colors duration-300"
+        className="mt-2 py-2 px-4 rounded-lg bg-blue-600 text-white font-semibold hover:bg-blue-700 disabled:bg-gray-400 transition-colors duration-300"
         onClick={onExecute}
         disabled={disabled}
       >
