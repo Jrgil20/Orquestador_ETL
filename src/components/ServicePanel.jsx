@@ -9,6 +9,7 @@ import React from "react";
  * - command: Comando que se ejecutará
  * - onExecute: Función para ejecutar el servicio
  * - disabled: Si el botón debe estar deshabilitado
+ * - children: Contenido personalizado para renderizar arriba del botón "Ejecutar"
  */
 const statusColors = {
   idle: "bg-gray-200 text-gray-700",
@@ -18,7 +19,7 @@ const statusColors = {
   unavailable: "bg-yellow-200 text-yellow-800",
 };
 
-export default function ServicePanel({ name, description, status, command, onExecute, disabled }) {
+export default function ServicePanel({ name, description, status, command, onExecute, disabled, children }) {
   return (
     <div className={`rounded-xl shadow-lg p-6 flex flex-col gap-3 border ${statusColors[status] || statusColors.idle}`}>
       <div className="flex items-center justify-between">
@@ -30,6 +31,9 @@ export default function ServicePanel({ name, description, status, command, onExe
         <span className="text-gray-400 text-xs whitespace-nowrap">Comando:</span>
         <code className="flex-1 overflow-hidden text-ellipsis whitespace-nowrap" title={command}>{command}</code>
       </div>
+
+      {children && <div className="mt-2 flex flex-col gap-2">{children}</div>}
+
       <button
         className="mt-2 py-2 px-4 rounded-lg bg-blue-600 text-white font-semibold hover:bg-blue-700 disabled:bg-gray-400 transition-colors duration-300"
         onClick={onExecute}

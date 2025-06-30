@@ -15,9 +15,18 @@ app.use(express.json());
 
 // Endpoint para ejecutar extracción
 app.post('/api/extract', (req, res) => {
+  const { accounts, maxTweets, startDate, endDate } = req.body;
+
   const extractionScript = path.resolve(__dirname, '../extraction/src/core/main.js');
+  
+  const args = [];
+  if (accounts) args.push('--accounts', accounts);
+  if (maxTweets) args.push('--maxTweets', maxTweets);
+  if (startDate) args.push('--startDate', startDate);
+  if (endDate) args.push('--endDate', endDate);
+
   const nodeCmd = process.platform === 'win32' ? 'node.exe' : 'node';
-  const child = spawn(nodeCmd, [extractionScript], {
+  const child = spawn(nodeCmd, [extractionScript, ...args], {
     cwd: path.resolve(__dirname, '../extraction'),
     env: process.env,
     shell: true,

@@ -55,6 +55,17 @@ export default function App() {
   const [supabaseStatus, setSupabaseStatus] = useState("idle");
   const [supabaseMsg, setSupabaseMsg] = useState("");
   const [files] = useState(initialFiles);
+  const [extractionParams, setExtractionParams] = useState({
+    accounts: 'tomapapa',
+    maxTweets: 15,
+    startDate: '2024-06-21',
+    endDate: '2024-06-30',
+  });
+
+  const handleExtractionParamChange = (e) => {
+    const { name, value } = e.target;
+    setExtractionParams(prev => ({ ...prev, [name]: value }));
+  };
 
   // Mock handlers
   const handleExecute = async (key) => {
@@ -67,7 +78,13 @@ export default function App() {
     );
     if (key === "extraction") {
       try {
-        const res = await fetch("http://localhost:4000/api/extract", { method: "POST" });
+        const res = await fetch("http://localhost:4000/api/extract", {
+          method: "POST",
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(extractionParams),
+        });
         const data = await res.json();
         if (data.success) {
           setLogs((l) => [...l, ...data.log.split("\n").map(line => `[extractor] ${line}`)]);
@@ -204,7 +221,16 @@ export default function App() {
               status={svc.status}
               onExecute={() => handleExecute(svc.key)}
               disabled={svc.status === "running"}
-            />
+            >
+              {svc.key === 'extraction' && (
+                <div className="flex flex-col gap-2 text-sm">
+                  <input type="text" name="accounts" value={extractionParams.accounts} onChange={handleExtractionParamChange} placeholder="Cuentas (separadas por coma)" className="border rounded px-2 py-1" />
+                  <input type="number" name="maxTweets" value={extractionParams.maxTweets} onChange={handleExtractionParamChange} placeholder="Max Tweets" className="border rounded px-2 py-1" />
+                  <input type="date" name="startDate" value={extractionParams.startDate} onChange={handleExtractionParamChange} className="border rounded px-2 py-1" />
+                  <input type="date" name="endDate" value={extractionParams.endDate} onChange={handleExtractionParamChange} className="border rounded px-2 py-1" />
+                </div>
+              )}
+            </ServicePanel>
           ))}
         </div>
       </div>
