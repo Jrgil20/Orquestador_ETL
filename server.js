@@ -25,6 +25,8 @@ app.post('/api/extract', (req, res) => {
   if (startDate) args.push('--startDate', startDate);
   if (endDate) args.push('--endDate', endDate);
 
+  console.log(`Executing: node ${extractionScript} ${args.join(' ')}`);
+
   const nodeCmd = process.platform === 'win32' ? 'node.exe' : 'node';
   const child = spawn(nodeCmd, [extractionScript, ...args], {
     cwd: path.resolve(__dirname, '../extraction'),
